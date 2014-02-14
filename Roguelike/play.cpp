@@ -16,7 +16,6 @@ int main(){
 	//	printMap(map);
 	//}
 	play(map);
-	system("pause");
 	exit(EXIT_SUCCESS);
 }
 
