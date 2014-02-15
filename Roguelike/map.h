@@ -7,22 +7,22 @@
 #define CHARACTER (char)64
 
 #define MAXLENGTH 30
-#define MAXWIDTH 30
+#define MAXHEIGHT 25
 #define MINROOMSIZE 2
 
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
-void generateMap(int type, char map[MAXWIDTH][MAXLENGTH]);
+void generateMap(int type, char map[MAXHEIGHT][MAXLENGTH]);
 
-int canFitRoom(char map[MAXWIDTH][MAXLENGTH], int y, int x, int len, int wid);
+int canFitRoom(char map[MAXHEIGHT][MAXLENGTH], int y, int x, int len, int wid);
 
-int addRoom(char map[MAXWIDTH][MAXLENGTH]);
+int addRoom(char map[MAXHEIGHT][MAXLENGTH]);
 
-int* findNextPoint(char map[MAXWIDTH][MAXLENGTH], int roomLen, int roomWid);
+int* findNextPoint(char map[MAXHEIGHT][MAXLENGTH], int roomLen, int roomWid);
 
-void fillMap(char map[MAXWIDTH][MAXLENGTH]);
+void fillMap(char map[MAXHEIGHT][MAXLENGTH]);
 
-void printMap(char map[MAXWIDTH][MAXLENGTH]);
+void printMap(char map[MAXHEIGHT][MAXLENGTH]);
 
 #endif

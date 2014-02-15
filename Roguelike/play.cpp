@@ -9,7 +9,7 @@
 using namespace std;
 
 int main(){
-	char map[MAXWIDTH][MAXLENGTH];
+	char map[MAXHEIGHT][MAXLENGTH];
 	generateMap(0, map);
 	//printMap(map);
 	//while(play() != 27){
@@ -19,7 +19,7 @@ int main(){
 	exit(EXIT_SUCCESS);
 }
 
-int play(char map[MAXWIDTH][MAXLENGTH]){
+int play(char map[MAXHEIGHT][MAXLENGTH]){
 	int c = 0;
 	//cout << "Enter character: ";
 	setCharLocation(1, 1, map);
@@ -66,7 +66,7 @@ int play(char map[MAXWIDTH][MAXLENGTH]){
 	return 1;
 }
 
-int setCharLocation(int x, int y, char map[MAXWIDTH][MAXLENGTH]){
+int setCharLocation(int x, int y, char map[MAXHEIGHT][MAXLENGTH]){
 	if(map[y][x] == WALL){
 		return 0;
 	}
@@ -81,9 +81,9 @@ int setCharLocation(int x, int y, char map[MAXWIDTH][MAXLENGTH]){
 	return 1;
 }
 
-int* locatePC(char map[MAXWIDTH][MAXLENGTH]){
+int* locatePC(char map[MAXHEIGHT][MAXLENGTH]){
 	int* result = (int*)malloc(sizeof(int)*2);
-	for(int i = 0; i < MAXWIDTH; i++){
+	for(int i = 0; i < MAXHEIGHT; i++){
 		for(int j = 0; j < MAXLENGTH; j++){
 			if(map[i][j] == CHARACTER){
 				result[0] = i;
@@ -95,7 +95,7 @@ int* locatePC(char map[MAXWIDTH][MAXLENGTH]){
 	return NULL;
 }
 
-int moveCH(int direction, char map[MAXWIDTH][MAXLENGTH]){
+int moveCH(int direction, char map[MAXHEIGHT][MAXLENGTH]){
 	int* pcLocation = locatePC(map);
 	//top row
 	if(direction == 7){
