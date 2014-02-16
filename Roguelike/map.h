@@ -13,16 +13,45 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
-void generateMap(int type, char map[MAXHEIGHT][MAXLENGTH]);
+class Tile{
+	char representation;
+	bool isPassible;
 
-int canFitRoom(char map[MAXHEIGHT][MAXLENGTH], int y, int x, int len, int wid);
+	public:
+		Tile();
+		Tile(char rep, bool pass);
+		bool getPassable();
+		char getRepresentation();
+		void setPassable(bool pass);
+		void setRepresentation(char rep);
+};
 
-int addRoom(char map[MAXHEIGHT][MAXLENGTH]);
+class Wall : public Tile{
 
-int* findNextPoint(char map[MAXHEIGHT][MAXLENGTH], int roomLen, int roomWid);
+public:
+	Wall();
+};
 
-void fillMap(char map[MAXHEIGHT][MAXLENGTH]);
+class Floor : public Tile{
+	
+public:
+	Floor();
+};
 
-void printMap(char map[MAXHEIGHT][MAXLENGTH]);
+
+
+
+
+void generateMap(int type, Tile map[MAXHEIGHT][MAXLENGTH]);
+
+int canFitRoom(Tile map[MAXHEIGHT][MAXLENGTH], int y, int x, int len, int wid);
+
+int addRoom(Tile map[MAXHEIGHT][MAXLENGTH]);
+
+int* findNextPoint(Tile map[MAXHEIGHT][MAXLENGTH], int roomLen, int roomWid);
+
+void fillMap(Tile map[MAXHEIGHT][MAXLENGTH]);
+
+void printMap(Tile map[MAXHEIGHT][MAXLENGTH]);
 
 #endif

@@ -9,7 +9,7 @@
 using namespace std;
 
 int main(){
-	char map[MAXHEIGHT][MAXLENGTH];
+	Tile map[MAXHEIGHT][MAXLENGTH];
 	generateMap(0, map);
 	//printMap(map);
 	//while(play() != 27){
@@ -19,7 +19,7 @@ int main(){
 	exit(EXIT_SUCCESS);
 }
 
-int play(char map[MAXHEIGHT][MAXLENGTH]){
+int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 	int c = 0;
 	//cout << "Enter character: ";
 	setCharLocation(1, 1, map);
@@ -66,26 +66,29 @@ int play(char map[MAXHEIGHT][MAXLENGTH]){
 	return 1;
 }
 
-int setCharLocation(int x, int y, char map[MAXHEIGHT][MAXLENGTH]){
-	if(map[y][x] == WALL){
+int setCharLocation(int x, int y, Tile map[MAXHEIGHT][MAXLENGTH]){
+	if(!map[y][x].getPassable()){
 		return 0;
 	}
 	int *pcLocation = locatePC(map);
 	if(pcLocation){
-		map[pcLocation[0]][pcLocation[1]] = FLOOR;
+		map[pcLocation[0]][pcLocation[1]].setPassable(true);
+		map[pcLocation[0]][pcLocation[1]].setRepresentation(FLOOR);
 	}
-	map[y][x] = CHARACTER;
+	map[y][x] = Tile(CHARACTER, false);
+	map[y][x].setPassable(false);
+	map[y][x].setRepresentation(CHARACTER);
 	//printMap(map);
 
 	free(pcLocation);
 	return 1;
 }
 
-int* locatePC(char map[MAXHEIGHT][MAXLENGTH]){
+int* locatePC(Tile map[MAXHEIGHT][MAXLENGTH]){
 	int* result = (int*)malloc(sizeof(int)*2);
 	for(int i = 0; i < MAXHEIGHT; i++){
 		for(int j = 0; j < MAXLENGTH; j++){
-			if(map[i][j] == CHARACTER){
+			if(map[i][j].getRepresentation() == CHARACTER){
 				result[0] = i;
 				result[1] = j;
 				return result;
@@ -95,11 +98,11 @@ int* locatePC(char map[MAXHEIGHT][MAXLENGTH]){
 	return NULL;
 }
 
-int moveCH(int direction, char map[MAXHEIGHT][MAXLENGTH]){
+int moveCH(int direction, Tile map[MAXHEIGHT][MAXLENGTH]){
 	int* pcLocation = locatePC(map);
 	//top row
 	if(direction == 7){
-		if(map[pcLocation[0]-1][pcLocation[1]-1] == FLOOR){
+		if(map[pcLocation[0]-1][pcLocation[1]-1].getPassable()){
 			setCharLocation(pcLocation[1]-1, pcLocation[0]-1, map);
 		}
 		else{
@@ -108,7 +111,7 @@ int moveCH(int direction, char map[MAXHEIGHT][MAXLENGTH]){
 		}
 	}
 	else if(direction == 8){
-		if(map[pcLocation[0]-1][pcLocation[1]] == FLOOR){
+		if(map[pcLocation[0]-1][pcLocation[1]].getPassable()){
 			setCharLocation(pcLocation[1], pcLocation[0]-1, map);
 		}
 		else{
@@ -117,7 +120,7 @@ int moveCH(int direction, char map[MAXHEIGHT][MAXLENGTH]){
 		}
 	}
 	else if(direction == 9){
-		if(map[pcLocation[0]-1][pcLocation[1]+1] == FLOOR){
+		if(map[pcLocation[0]-1][pcLocation[1]+1].getPassable()){
 			setCharLocation(pcLocation[1]+1, pcLocation[0]-1, map);
 		}
 		else{
@@ -128,7 +131,7 @@ int moveCH(int direction, char map[MAXHEIGHT][MAXLENGTH]){
 
 	//middle row
 	else if(direction == 4){
-		if(map[pcLocation[0]][pcLocation[1]-1] == FLOOR){
+		if(map[pcLocation[0]][pcLocation[1]-1].getPassable()){
 			setCharLocation(pcLocation[1]-1, pcLocation[0], map);
 		}
 		else{
@@ -141,7 +144,7 @@ int moveCH(int direction, char map[MAXHEIGHT][MAXLENGTH]){
 		return 1;
 	}
 	else if(direction == 6){
-		if(map[pcLocation[0]][pcLocation[1]+1] == FLOOR){
+		if(map[pcLocation[0]][pcLocation[1]+1].getPassable()){
 			setCharLocation(pcLocation[1]+1, pcLocation[0], map);
 		}
 		else{
@@ -152,7 +155,7 @@ int moveCH(int direction, char map[MAXHEIGHT][MAXLENGTH]){
 
 	//bottom row
 	else if(direction == 1){
-		if(map[pcLocation[0]+1][pcLocation[1]-1] == FLOOR){
+		if(map[pcLocation[0]+1][pcLocation[1]-1].getPassable()){
 			setCharLocation(pcLocation[1]-1, pcLocation[0]+1, map);
 		}
 		else{
@@ -161,7 +164,7 @@ int moveCH(int direction, char map[MAXHEIGHT][MAXLENGTH]){
 		}
 	}
 	else if(direction == 2){
-		if(map[pcLocation[0]+1][pcLocation[1]] == FLOOR){
+		if(map[pcLocation[0]+1][pcLocation[1]].getPassable()){
 			setCharLocation(pcLocation[1], pcLocation[0]+1, map);
 		}
 		else{
@@ -170,7 +173,7 @@ int moveCH(int direction, char map[MAXHEIGHT][MAXLENGTH]){
 		}
 	}
 	else if(direction == 3){
-		if(map[pcLocation[0]+1][pcLocation[1]+1] == FLOOR){
+		if(map[pcLocation[0]+1][pcLocation[1]+1].getPassable()){
 			setCharLocation(pcLocation[1]+1, pcLocation[0]+1, map);
 		}
 		else{

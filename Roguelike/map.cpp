@@ -25,28 +25,28 @@ using namespace std;
 	cin >> buff;
 	cout << "\n\n";
 	type = atoi(&buff);
-	char map[MAXHEIGHT][MAXLENGTH];
+	Tile map[MAXHEIGHT][MAXLENGTH];
 	generateMap(type, map);
 	printMap(map);
 	system("pause");
 	exit(EXIT_SUCCESS);
 }*/
 
-void generateMap(int type, char map[MAXHEIGHT][MAXLENGTH]){
+void generateMap(int type, Tile map[MAXHEIGHT][MAXLENGTH]){
 	fillMap(map);
 	if(type == 0){
 		for(int j = 0; j < MAXLENGTH; j++){
-			map[0][j] = WALL;
+			map[0][j] = Wall();
 		}
 		for(int i = 1; i < MAXHEIGHT-1; i++){
-			map[i][0] = WALL;
+			map[i][0] = Wall();
 			for(int j = 1; j < MAXLENGTH-1; j++){
-				map[i][j] = FLOOR;
+				map[i][j] = Floor();
 			}
-			map[i][MAXLENGTH-1] = WALL;
+			map[i][MAXLENGTH-1] = Wall();
 		}
 		for(int j = 0; j < MAXLENGTH; j++){
-			map[MAXHEIGHT-1][j] = WALL;
+			map[MAXHEIGHT-1][j] = Wall();
 		}
 	}
 	else if(type == 1){
@@ -58,11 +58,11 @@ void generateMap(int type, char map[MAXHEIGHT][MAXLENGTH]){
 	}
 }
 
-int canFitRoom(char map[MAXHEIGHT][MAXLENGTH], int y, int x, int len, int wid){
+int canFitRoom(Tile map[MAXHEIGHT][MAXLENGTH], int y, int x, int len, int wid){
 
 	for(int i = y; i < y + wid; i++){
 		for(int j = x; j < x + len; j++){
-			if(!(map[i][j] == WALL && map[i][j-1] == WALL && map[i-1][j] == WALL && map[i][j+1] == WALL && map[i+1][j] == WALL)){
+			if (!(map[i][j].getRepresentation() == WALL && map[i][j - 1].getRepresentation() == WALL && map[i - 1][j].getRepresentation() == WALL && map[i][j + 1].getRepresentation() == WALL && map[i + 1][j].getRepresentation() == WALL)){
 				return 0;
 			}
 		}
@@ -70,7 +70,7 @@ int canFitRoom(char map[MAXHEIGHT][MAXLENGTH], int y, int x, int len, int wid){
 	return 1;
 }
 
-int addRoom(char map[MAXHEIGHT][MAXLENGTH]){
+int addRoom(Tile map[MAXHEIGHT][MAXLENGTH]){
 	int roomLen = rand() % (MAXLENGTH/2-MINROOMSIZE) + MINROOMSIZE;
 	int roomWid = rand() % (MAXHEIGHT/2-MINROOMSIZE) + MINROOMSIZE;
 	int* nextPoint = findNextPoint(map, roomLen, roomWid);
@@ -80,14 +80,14 @@ int addRoom(char map[MAXHEIGHT][MAXLENGTH]){
 	}
 	for(int i = nextPoint[0]; i < roomLen + nextPoint[0]; i++){
 		for(int j = nextPoint[1]; j < roomWid + nextPoint[1]; j++){
-			map[i][j] = FLOOR;
+			map[i][j] = Floor();
 		}
 	}
 	free(nextPoint);
 	return 1;
 }
 
-int* findNextPoint(char map[MAXHEIGHT][MAXLENGTH], int roomLen, int roomWid){
+int* findNextPoint(Tile map[MAXHEIGHT][MAXLENGTH], int roomLen, int roomWid){
 	int *result = (int*)malloc(sizeof(int)*2);
 	for(int i = 1; i < MAXLENGTH-roomLen; i++){
 		for(int j = 1; j < MAXHEIGHT-roomWid; j++){
@@ -101,19 +101,56 @@ int* findNextPoint(char map[MAXHEIGHT][MAXLENGTH], int roomLen, int roomWid){
 	return NULL;
 }
 
-void fillMap(char map[MAXHEIGHT][MAXLENGTH]){
+void fillMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	for(int i = 0; i < MAXHEIGHT; i++){
 		for(int j = 0; j < MAXLENGTH; j++){
-			map[i][j] = WALL;
+			map[i][j] = Wall();
 		}
 	}
 }
 
-void printMap(char map[MAXHEIGHT][MAXLENGTH]){
+void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	for(int i = 0; i < MAXHEIGHT; i++){
 		cout << "\n";
 		for(int j = 0; j < MAXLENGTH; j++){
-			cout << map[i][j];
+			cout << map[i][j].getRepresentation();
 		}
 	}
+}
+
+
+
+
+Tile::Tile(char rep, bool pass){
+	representation = rep;
+	isPassible = pass;
+}
+
+Tile::Tile(){
+	representation = WALL;
+	isPassible = false;
+}
+
+bool Tile::getPassable(){
+	return isPassible;
+}
+
+char Tile::getRepresentation(){
+	return representation;
+}
+
+void Tile::setPassable(bool pass){
+	isPassible = pass;
+}
+
+void Tile::setRepresentation(char rep){
+	representation = rep;
+}
+
+Wall::Wall() : Tile(WALL, false){
+
+}
+
+Floor::Floor() : Tile(FLOOR, true){
+
 }
