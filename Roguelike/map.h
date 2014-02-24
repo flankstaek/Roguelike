@@ -5,6 +5,7 @@
 #define WALL (char)219 
 #define FLOOR (char)249
 #define CHARACTER (char)64
+#define ENEMY (char)69
 
 #define MAXLENGTH 30
 #define MAXHEIGHT 25
@@ -42,16 +43,16 @@ public:
 
 
 
-void generateMap(int type, Tile map[MAXHEIGHT][MAXLENGTH]);
+void generateMap(int, Tile[MAXHEIGHT][MAXLENGTH]);
 
-int canFitRoom(Tile map[MAXHEIGHT][MAXLENGTH], int y, int x, int len, int wid);
+int canFitRoom(Tile[MAXHEIGHT][MAXLENGTH], int, int, int, int);
 
-int addRoom(Tile map[MAXHEIGHT][MAXLENGTH]);
+int addRoom(Tile[MAXHEIGHT][MAXLENGTH]);
 
-int* findNextPoint(Tile map[MAXHEIGHT][MAXLENGTH], int roomLen, int roomWid);
+int* findNextPoint(Tile[MAXHEIGHT][MAXLENGTH], int, int);
 
-void fillMap(Tile map[MAXHEIGHT][MAXLENGTH]);
+void fillMap(Tile[MAXHEIGHT][MAXLENGTH]);
 
-void printMap(Tile map[MAXHEIGHT][MAXLENGTH]);
+void printMap(Tile[MAXHEIGHT][MAXLENGTH]);
 
 #endif

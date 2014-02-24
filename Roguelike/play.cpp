@@ -23,6 +23,7 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 	int c = 0;
 	//cout << "Enter character: ";
 	setCharLocation(1, 1, map);
+	setEnemyLoc(15, 15, map);
 
 
 	printMap(map);
@@ -76,11 +77,21 @@ int setCharLocation(int x, int y, Tile map[MAXHEIGHT][MAXLENGTH]){
 		map[pcLocation[0]][pcLocation[1]].setRepresentation(FLOOR);
 	}
 	map[y][x] = Tile(CHARACTER, false);
-	map[y][x].setPassable(false);
-	map[y][x].setRepresentation(CHARACTER);
+	/*map[y][x].setPassable(false);
+	map[y][x].setRepresentation(CHARACTER); -- ******Commented this out, isn't it redundant with the above constructor?********/
 	//printMap(map);
 
 	free(pcLocation);
+	return 1;
+}
+
+//Temporary Enemy location function
+int setEnemyLoc(int x, int y, Tile map[MAXHEIGHT][MAXLENGTH]) {
+	if (!map[y][x].getPassable()) {
+		return 0;
+	}
+
+	map[y][x] = Tile(ENEMY, false);
 	return 1;
 }
 
