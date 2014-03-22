@@ -1,13 +1,6 @@
-
-
-
-
 #include "player.h"
 
-
 using namespace std;
-
-
 
 void Player::levelUp(){
 	experience = 0;

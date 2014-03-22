@@ -1,0 +1,32 @@
+#include "Character.h"
+
+#define WALL (char)219 
+#define FLOOR (char)249
+#define CHARACTER (char)64
+#define ENEMY (char)69
+
+class Tile{
+	char representation;
+	bool isPassible;
+
+
+public:
+	Tile();
+	Tile(char rep, bool pass);
+	bool getPassable();
+	char getRepresentation();
+	void setPassable(bool pass);
+	void setRepresentation(char rep);
+};
+
+class Wall : public Tile{
+
+public:
+	Wall();
+};
+
+class Floor : public Tile{
+
+public:
+	Floor();
+};

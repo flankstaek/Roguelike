@@ -1,12 +1,11 @@
 
+#include "Character.h"
 
 
+class Player:Character {
 
-class Player{
 	int level;
-	int experience;
 
-	int health;
 	int hunger;
 
 	int speed;
@@ -23,5 +22,8 @@ class Player{
 	void levelUp();
 
 public:
-
+	int attack() {
+		//Damage calculation
+		return 0;
+	}
 };

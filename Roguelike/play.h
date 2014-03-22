@@ -1,4 +1,3 @@
-
 #include "map.h"
 
 #ifndef PLAY_H
