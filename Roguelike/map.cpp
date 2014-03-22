@@ -124,6 +124,8 @@ void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 Tile::Tile(char rep, bool pass){
 	representation = rep;
 	isPassible = pass;
+	hasCharacter = false;
+	hasItem = false;
 }
 
 Tile::Tile(){
@@ -136,6 +138,12 @@ bool Tile::getPassable(){
 }
 
 char Tile::getRepresentation(){
+	if (hasCharacter){
+		//return character representation
+	}
+	else if (hasItem){
+		//return item representation
+	}
 	return representation;
 }
 

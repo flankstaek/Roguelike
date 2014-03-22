@@ -17,6 +17,8 @@
 class Tile{
 	char representation;
 	bool isPassible;
+	bool hasCharacter;
+	bool hasItem;
 
 	public:
 		Tile();
