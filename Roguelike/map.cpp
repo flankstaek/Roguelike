@@ -14,6 +14,7 @@
 #include <ctime>
 
 #include "map.h"
+#include "Tile.h"
 
 using namespace std;
 
@@ -121,44 +122,3 @@ void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 
 
 
-Tile::Tile(char rep, bool pass){
-	representation = rep;
-	isPassible = pass;
-	hasCharacter = false;
-	hasItem = false;
-}
-
-Tile::Tile(){
-	representation = WALL;
-	isPassible = false;
-}
-
-bool Tile::getPassable(){
-	return isPassible;
-}
-
-char Tile::getRepresentation(){
-	if (hasCharacter){
-		//return character representation
-	}
-	else if (hasItem){
-		//return item representation
-	}
-	return representation;
-}
-
-void Tile::setPassable(bool pass){
-	isPassible = pass;
-}
-
-void Tile::setRepresentation(char rep){
-	representation = rep;
-}
-
-Wall::Wall() : Tile(WALL, false){
-
-}
-
-Floor::Floor() : Tile(FLOOR, true){
-
-}

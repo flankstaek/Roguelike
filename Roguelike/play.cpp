@@ -5,6 +5,10 @@
 #include <conio.h>
 
 #include "play.h"
+#include "Tile.h"
+#include "Character.h"
+#include "Player.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -21,9 +25,8 @@ int main(){
 
 int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 	int c = 0;
-	//cout << "Enter character: ";
-	setCharLocation(1, 1, map);
-	setEnemyLoc(15, 15, map);
+	Character ** characters = populateMap(map);
+	//setEnemyLoc(15, 15, map);
 
 
 	printMap(map);
@@ -33,31 +36,31 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 	while(c != 27){
 		int redraw = 0;
 		if(c == 49){
-			redraw = moveCH(1, map);
+			redraw = moveCH(1, map, characters[0]);
 		}
 		if(c == 50){
-			redraw = moveCH(2, map);
+			redraw = moveCH(2, map, characters[0]);
 		}
 		if(c == 51){
-			redraw = moveCH(3, map);
+			redraw = moveCH(3, map, characters[0]);
 		}
 		if(c == 52){
-			redraw = moveCH(4, map);
+			redraw = moveCH(4, map, characters[0]);
 		}
 		if(c == 53){
-			redraw = moveCH(5, map);
+			redraw = moveCH(5, map, characters[0]);
 		}
 		if(c == 54){
-			redraw = moveCH(6, map);
+			redraw = moveCH(6, map, characters[0]);
 		}
 		if(c == 55){
-			redraw = moveCH(7, map);
+			redraw = moveCH(7, map, characters[0]);
 		}
 		if(c == 56){
-			redraw = moveCH(8, map);
+			redraw = moveCH(8, map, characters[0]);
 		}
 		if(c == 57){
-			redraw = moveCH(9, map);
+			redraw = moveCH(9, map, characters[0]);
 		}
 		if(redraw){
 			printMap(map);
@@ -67,137 +70,95 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 	return 1;
 }
 
-int setCharLocation(int x, int y, Tile map[MAXHEIGHT][MAXLENGTH]){
-	if(!map[y][x].getPassable()){
-		return 0;
-	}
-	int *pcLocation = locatePC(map);
-	if(pcLocation){
-		map[pcLocation[0]][pcLocation[1]].setPassable(true);
-		map[pcLocation[0]][pcLocation[1]].setRepresentation(FLOOR);
-	}
-	map[y][x] = Tile(CHARACTER, false);
-	/*map[y][x].setPassable(false);
-	map[y][x].setRepresentation(CHARACTER); -- ******Commented this out, isn't it redundant with the above constructor?********/
-	//printMap(map);
-
-	free(pcLocation);
-	return 1;
+Character ** populateMap(Tile map[MAXHEIGHT][MAXLENGTH]){
+	Character ** result = (Character**)malloc(sizeof(Character**));
+	Player * p = (Player*)malloc(sizeof(Player));
+	*p = Player(10, '@');
+	p->setPos(1, 1, map);
+	result[0] = p;
+	return result;
 }
 
-//Temporary Enemy location function
-int setEnemyLoc(int x, int y, Tile map[MAXHEIGHT][MAXLENGTH]) {
-	if (!map[y][x].getPassable()) {
-		return 0;
-	}
-
-	map[y][x] = Tile(ENEMY, false);
-	return 1;
-}
-
-int* locatePC(Tile map[MAXHEIGHT][MAXLENGTH]){
-	int* result = (int*)malloc(sizeof(int)*2);
-	for(int i = 0; i < MAXHEIGHT; i++){
-		for(int j = 0; j < MAXLENGTH; j++){
-			if(map[i][j].getRepresentation() == CHARACTER){
-				result[0] = i;
-				result[1] = j;
-				return result;
-			}
-		}
-	}
-	return NULL;
-}
-
-int moveCH(int direction, Tile map[MAXHEIGHT][MAXLENGTH]){
-	int* pcLocation = locatePC(map);
+int moveCH(int direction, Tile map[MAXHEIGHT][MAXLENGTH], Character *c){
 	//top row
 	if(direction == 7){
-		if(map[pcLocation[0]-1][pcLocation[1]-1].getPassable()){
-			setCharLocation(pcLocation[1]-1, pcLocation[0]-1, map);
+		if (map[c->getY() - 1][c->getX() - 1].getPassable()){
+			c->setPos(c->getY() - 1, c->getX() - 1, map);
+			printMap(map);
 		}
 		else{
-			free(pcLocation);
 			return 0;
 		}
 	}
 	else if(direction == 8){
-		if(map[pcLocation[0]-1][pcLocation[1]].getPassable()){
-			setCharLocation(pcLocation[1], pcLocation[0]-1, map);
+		if (map[c->getY() - 1][c->getX()].getPassable()){
+			c->setPos(c->getY() - 1, c->getX(), map);
 		}
 		else{
-			free(pcLocation);
 			return 0;
 		}
 	}
 	else if(direction == 9){
-		if(map[pcLocation[0]-1][pcLocation[1]+1].getPassable()){
-			setCharLocation(pcLocation[1]+1, pcLocation[0]-1, map);
+		if (map[c->getY() - 1][c->getX() + 1].getPassable()){
+			c->setPos(c->getY() - 1, c->getX() + 1, map);
 		}
 		else{
-			free(pcLocation);
 			return 0;
 		}
 	}
 
 	//middle row
 	else if(direction == 4){
-		if(map[pcLocation[0]][pcLocation[1]-1].getPassable()){
-			setCharLocation(pcLocation[1]-1, pcLocation[0], map);
+		if (map[c->getY()][c->getX() - 1].getPassable()){
+			c->setPos(c->getY(), c->getX() - 1, map);
 		}
 		else{
-			free(pcLocation);
 			return 0;
 		}
 	}
 	else if(direction == 5){
-		free(pcLocation);
 		return 1;
 	}
 	else if(direction == 6){
-		if(map[pcLocation[0]][pcLocation[1]+1].getPassable()){
-			setCharLocation(pcLocation[1]+1, pcLocation[0], map);
+		cout << c->getX() << ", " << c->getY();
+		if (map[c->getY()][c->getX() + 1].getPassable()){
+			c->setPos(c->getY(), c->getX() + 1, map);
+			cout << c->getX() << ", " << c->getY();
 		}
 		else{
-			free(pcLocation);
 			return 0;
 		}
 	}
 
 	//bottom row
 	else if(direction == 1){
-		if(map[pcLocation[0]+1][pcLocation[1]-1].getPassable()){
-			setCharLocation(pcLocation[1]-1, pcLocation[0]+1, map);
+		if (map[c->getY() + 1][c->getX() - 1].getPassable()){
+			c->setPos(c->getY() + 1, c->getX() - 1, map);
 		}
 		else{
-			free(pcLocation);
 			return 0;
 		}
 	}
 	else if(direction == 2){
-		if(map[pcLocation[0]+1][pcLocation[1]].getPassable()){
-			setCharLocation(pcLocation[1], pcLocation[0]+1, map);
+		if (map[c->getY() + 1][c->getX()].getPassable()){
+			c->setPos(c->getY() + 1, c->getX(), map);
 		}
 		else{
-			free(pcLocation);
 			return 0;
 		}
 	}
 	else if(direction == 3){
-		if(map[pcLocation[0]+1][pcLocation[1]+1].getPassable()){
-			setCharLocation(pcLocation[1]+1, pcLocation[0]+1, map);
+		if (map[c->getY() + 1][c->getX() + 1].getPassable()){
+			c->setPos(c->getY() + 1, c->getX() + 1, map);
 		}
 		else{
-			free(pcLocation);
 			return 0;
 		}
 	}
 
 	else if(direction == 27){
-		free(pcLocation);
 		return 0;
 	}
 
-	free(pcLocation);
 	return 1;
 }

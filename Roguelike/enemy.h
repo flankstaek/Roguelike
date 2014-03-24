@@ -1,8 +1,9 @@
-class Enemy {
-public:
-	int exp;
-	int health;
+#include "Character.h"
+
+class Enemy: public Character{
 	int damage;
 
-	Enemy(int, int, int);
+public:
+	Enemy(int, char);
+	int attack();
 };
