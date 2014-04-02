@@ -14,7 +14,6 @@ Character::Character(int h, char r){
 }
 
 void Character::damage(int d) { 
-	health -= d;
 }
 
 void Character::addExp(int e) { 
@@ -29,7 +28,7 @@ void Character::resetExp(){
 	exp = 0;
 }
 
-int Character::attack(){
+int Character::attack(Character* c){
 	return 0;
 }
 

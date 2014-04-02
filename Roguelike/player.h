@@ -1,8 +1,8 @@
-
 #include "Character.h"
 
 
 class Player: public Character {
+public:
 
 	int level;
 
@@ -21,8 +21,8 @@ class Player: public Character {
 
 	
 
-public:
 	Player(int, char);
 	void levelUp();
-	int attack();
+	int attack(Character*);
+	void damage(int);
 };

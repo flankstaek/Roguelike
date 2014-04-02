@@ -8,20 +8,22 @@ class Character;
 #define FLOOR (char)249
 #define CHARACTER (char)64
 #define ENEMY (char)69
+enum PASSABLE {_PASS, _WALL, _ENEMY};
 
 class Tile{
 	char representation;
-	bool isPassible;
+	int isPassible;
 	bool hasCharacter;
 	bool hasItem;
 	Character* occupyingCharacter;
 
 public:
 	Tile();
-	Tile(char, bool);
-	bool getPassable();
+	Tile(char, int);
+	Tile(char);
+	int getPassable();
 	char getRepresentation();
-	void setPassable(bool);
+	void setPassable(int);
 	void setRepresentation(char);
 	void setOccupyingCharacter(Character *);
 	Character * getOccupyingCharacter();

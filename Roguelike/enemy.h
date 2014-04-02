@@ -1,9 +1,10 @@
 #include "Character.h"
 
 class Enemy: public Character{
-	int damage;
-
 public:
+	int dmg;
+
 	Enemy(int, char);
-	int attack();
+	int attack(Character*);
+	void damage(int);
 };

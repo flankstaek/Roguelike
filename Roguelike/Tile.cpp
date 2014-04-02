@@ -4,7 +4,7 @@
 using namespace std;
 #include<iostream>
 
-Tile::Tile(char rep, bool pass){
+Tile::Tile(char rep, int pass){
 	representation = rep;
 	isPassible = pass;
 	hasCharacter = false;
@@ -14,10 +14,10 @@ Tile::Tile(char rep, bool pass){
 
 Tile::Tile(){
 	representation = WALL;
-	isPassible = false;
+	isPassible = _WALL;
 }
 
-bool Tile::getPassable(){
+int Tile::getPassable(){
 	return isPassible;
 }
 
@@ -32,7 +32,7 @@ char Tile::getRepresentation(){
 	return representation;
 }
 
-void Tile::setPassable(bool pass){
+void Tile::setPassable(int pass){
 	isPassible = pass;
 }
 
@@ -40,11 +40,11 @@ void Tile::setRepresentation(char rep){
 	representation = rep;
 }
 
-Wall::Wall() : Tile(WALL, false){
+Wall::Wall() : Tile(WALL, _WALL){
 
 }
 
-Floor::Floor() : Tile(FLOOR, true){
+Floor::Floor() : Tile(FLOOR, _PASS){
 
 }
 
@@ -56,9 +56,11 @@ void Tile::setOccupyingCharacter(Character * c){
 	occupyingCharacter = c;
 	if (c == 0){
 		hasCharacter = false;
+		isPassible = _PASS;
 	}
 	else{
 		hasCharacter = true;
+		isPassible = _ENEMY; //Currently done poorly, if it's not a wall and not nothing, then it's probably an enemy. I like enum's, seems fitting for future use.
 	}
 	//cout << "What's going on here? " << occupyingCharacter << ", " << c << ", " << getRepresentation() << "  ";
 }

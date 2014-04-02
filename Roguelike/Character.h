@@ -8,22 +8,23 @@ class Tile;
 
 class Character
 {
+public:
 	int exp;
 	int health;
 	char rep;
 	int xPos;
 	int yPos;
-public:
-	void damage(int d);
-	void addExp(int e);
-	void setRep(char c);
+
+	virtual void damage(int);
+	void addExp(int);
+	void setRep(char);
 	void resetExp();
-	int attack();
+	virtual int attack(Character*);
 	char getRep();
 	Character(int, char);
 	int getX();
 	int getY();
-	void setPos(int x, int y, Tile[MAXHEIGHT][MAXLENGTH]);
+	void setPos(int, int, Tile[MAXHEIGHT][MAXLENGTH]);
 };
 
 #endif

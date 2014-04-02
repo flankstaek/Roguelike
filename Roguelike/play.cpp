@@ -2,7 +2,6 @@
 
 
 #include <iostream>
-#include <conio.h>
 
 #include "play.h"
 #include "Tile.h"
@@ -33,38 +32,39 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 
 
 	c = _getch();
-	while(c != 27){
+	while (c != 27){
 		int redraw = 0;
-		if(c == 49){
+		if (c == 49){
 			redraw = moveCH(1, map, characters[0]);
 		}
-		if(c == 50){
+		if (c == 50){
 			redraw = moveCH(2, map, characters[0]);
 		}
-		if(c == 51){
+		if (c == 51){
 			redraw = moveCH(3, map, characters[0]);
 		}
-		if(c == 52){
+		if (c == 52){
 			redraw = moveCH(4, map, characters[0]);
 		}
-		if(c == 53){
+		if (c == 53){
 			redraw = moveCH(5, map, characters[0]);
 		}
-		if(c == 54){
+		if (c == 54){
 			redraw = moveCH(6, map, characters[0]);
 		}
-		if(c == 55){
+		if (c == 55){
 			redraw = moveCH(7, map, characters[0]);
 		}
-		if(c == 56){
+		if (c == 56){
 			redraw = moveCH(8, map, characters[0]);
 		}
-		if(c == 57){
+		if (c == 57){
 			redraw = moveCH(9, map, characters[0]);
 		}
-		if(redraw){
+		if (redraw){
 			printMap(map);
 		}
+		//Iterate through enemies, do shit
 		c = _getch();
 	}
 	return 1;
@@ -72,91 +72,146 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 
 Character ** populateMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	Character ** result = (Character**)malloc(sizeof(Character**));
-	Player * p = (Player*)malloc(sizeof(Player));
-	*p = Player(10, '@');
+	Character * p = (Character*)malloc(sizeof(Player));
+	p = new Player(10, '@');
 	p->setPos(1, 1, map);
+	Character * e = (Character*)malloc(sizeof(Enemy));
+	e = new Enemy(5, 'e');
+	e->setPos(MAXHEIGHT / 2, MAXLENGTH / 2, map);
 	result[0] = p;
+	result[1] = e;
 	return result;
 }
 
 int moveCH(int direction, Tile map[MAXHEIGHT][MAXLENGTH], Character *c){
 	//top row
-	if(direction == 7){
-		if (map[c->getY() - 1][c->getX() - 1].getPassable()){
+	if (direction == 7){
+		switch (map[c->getY() - 1][c->getX() - 1].getPassable()) {
+		case _PASS:
 			c->setPos(c->getY() - 1, c->getX() - 1, map);
-			printMap(map);
-		}
-		else{
+			break;
+
+		case _ENEMY:
+			c->attack(map[c->getY() - 1][c->getX() - 1].getOccupyingCharacter());
+			break;
+
+		default:
 			return 0;
 		}
 	}
-	else if(direction == 8){
-		if (map[c->getY() - 1][c->getX()].getPassable()){
+	else if (direction == 8){
+		switch (map[c->getY() - 1][c->getX()].getPassable()){
+		case _PASS:
 			c->setPos(c->getY() - 1, c->getX(), map);
-		}
-		else{
+			break;
+
+		case _ENEMY:
+			c->attack(map[c->getY() - 1][c->getX()].getOccupyingCharacter());
+			break;
+
+		default:
 			return 0;
+
 		}
 	}
-	else if(direction == 9){
-		if (map[c->getY() - 1][c->getX() + 1].getPassable()){
+	else if (direction == 9){
+		switch (map[c->getY() - 1][c->getX() + 1].getPassable()){
+		case _PASS:
 			c->setPos(c->getY() - 1, c->getX() + 1, map);
-		}
-		else{
+			break;
+
+		case _ENEMY:
+			c->attack(map[c->getY() - 1][c->getX() + 1].getOccupyingCharacter());
+			break;
+
+		default:
 			return 0;
+
 		}
 	}
 
 	//middle row
-	else if(direction == 4){
-		if (map[c->getY()][c->getX() - 1].getPassable()){
+	else if (direction == 4){
+		switch (map[c->getY()][c->getX() - 1].getPassable()){
+		case _PASS:
 			c->setPos(c->getY(), c->getX() - 1, map);
-		}
-		else{
+			break;
+
+		case _ENEMY:
+			c->attack(map[c->getY()][c->getX() - 1].getOccupyingCharacter());
+			break;
+
+		default:
 			return 0;
+
 		}
 	}
-	else if(direction == 5){
+	else if (direction == 5){
 		return 1;
 	}
-	else if(direction == 6){
-		cout << c->getX() << ", " << c->getY();
-		if (map[c->getY()][c->getX() + 1].getPassable()){
+	else if (direction == 6){
+		switch (map[c->getY()][c->getX() + 1].getPassable()){
+		case _PASS:
 			c->setPos(c->getY(), c->getX() + 1, map);
-			cout << c->getX() << ", " << c->getY();
-		}
-		else{
+			break;
+
+		case _ENEMY:
+			c->attack(map[c->getY()][c->getX() + 1].getOccupyingCharacter());
+			break;
+
+		default:
 			return 0;
+
 		}
 	}
 
 	//bottom row
-	else if(direction == 1){
-		if (map[c->getY() + 1][c->getX() - 1].getPassable()){
+	else if (direction == 1){
+		switch (map[c->getY() + 1][c->getX() - 1].getPassable()){
+		case _PASS:
 			c->setPos(c->getY() + 1, c->getX() - 1, map);
-		}
-		else{
+			break;
+
+		case _ENEMY:
+			c->attack(map[c->getY() + 1][c->getX() - 1].getOccupyingCharacter());
+			break;
+
+		default:
 			return 0;
+
 		}
 	}
-	else if(direction == 2){
-		if (map[c->getY() + 1][c->getX()].getPassable()){
+	else if (direction == 2){
+		switch (map[c->getY() + 1][c->getX()].getPassable()){
+		case _PASS:
 			c->setPos(c->getY() + 1, c->getX(), map);
-		}
-		else{
+			break;
+
+		case _ENEMY:
+			c->attack(map[c->getY() + 1][c->getX()].getOccupyingCharacter());
+			break;
+
+		default:
 			return 0;
+
 		}
 	}
-	else if(direction == 3){
-		if (map[c->getY() + 1][c->getX() + 1].getPassable()){
+	else if (direction == 3){
+		switch (map[c->getY() + 1][c->getX() + 1].getPassable()){
+		case _PASS:
 			c->setPos(c->getY() + 1, c->getX() + 1, map);
-		}
-		else{
+			break;
+
+		case _ENEMY:
+			c->attack(map[c->getY() + 1][c->getX() + 1].getOccupyingCharacter());
+			break;
+
+		default:
 			return 0;
 		}
 	}
 
-	else if(direction == 27){
+	else if (direction == 27){
 		return 0;
 	}
 
