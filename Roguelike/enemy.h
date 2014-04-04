@@ -7,5 +7,5 @@ public:
 	Enemy(int, char);
 	int attack(Character*);
 	void damage(int);
-	void checkAttack(Tile[MAXHEIGHT][MAXLENGTH]);
+	int checkAttack(Tile[MAXHEIGHT][MAXLENGTH]);
 };

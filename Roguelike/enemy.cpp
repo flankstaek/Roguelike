@@ -28,7 +28,14 @@ void Enemy::damage(int d) {
 	//Check for death in here?
 }
 
-void Enemy::checkAttack(Tile map[MAXHEIGHT][MAXLENGTH]){
-	//I think this will be done better once you have tiles looking at neighbors. But I'll do a thing for now.
-
+int Enemy::checkAttack(Tile map[MAXHEIGHT][MAXLENGTH]){
+	for (int x = -1; x <= 1; x++) {
+		for (int y = -1; y <= 1; y++) {
+			if (map[getY() + y][getX() + x].getPassable() == _PLAYER) {
+				attack(map[getY() + y][getX() + x].getOccupyingCharacter());
+				return 1;
+			}
+		}
+	}
+	return 0;
 }

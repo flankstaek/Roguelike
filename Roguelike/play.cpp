@@ -64,9 +64,8 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 		if (redraw){
 			printMap(map);
 		}
-		//For each enemy blah blah boohoo there's only one.
-
-
+		Enemy * e = (Enemy*)characters[1];
+		e->checkAttack(map);
 		c = _getch();
 	}
 	return 1;
