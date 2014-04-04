@@ -64,7 +64,9 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 		if (redraw){
 			printMap(map);
 		}
-		//Iterate through enemies, do shit
+		//For each enemy blah blah boohoo there's only one.
+
+
 		c = _getch();
 	}
 	return 1;
@@ -75,6 +77,7 @@ Character ** populateMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	Character * p = (Character*)malloc(sizeof(Player));
 	p = new Player(10, '@');
 	p->setPos(1, 1, map);
+	map[1][1].setPassable(_PLAYER); //Janky as shit way for enemies to make sure they only hit a player.
 	Character * e = (Character*)malloc(sizeof(Enemy));
 	e = new Enemy(5, 'e');
 	e->setPos(MAXHEIGHT / 2, MAXLENGTH / 2, map);

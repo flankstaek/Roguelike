@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "Tile.h"
 
 using namespace std;
 
@@ -25,4 +26,9 @@ void Enemy::damage(int d) {
 	health -= d;
 
 	//Check for death in here?
+}
+
+void Enemy::checkAttack(Tile map[MAXHEIGHT][MAXLENGTH]){
+	//I think this will be done better once you have tiles looking at neighbors. But I'll do a thing for now.
+
 }

@@ -18,6 +18,6 @@ int* locatePC(Tile[MAXHEIGHT][MAXLENGTH]);
 
 int moveCH(int, Tile[MAXHEIGHT][MAXLENGTH], Character *);
 
-Character ** populateMap(Tile map[MAXHEIGHT][MAXLENGTH]);
+Character ** populateMap(Tile[MAXHEIGHT][MAXLENGTH]);
 
 #endif

@@ -8,7 +8,7 @@ class Character;
 #define FLOOR (char)249
 #define CHARACTER (char)64
 #define ENEMY (char)69
-enum PASSABLE {_PASS, _WALL, _ENEMY};
+enum PASSABLE {_PASS, _WALL, _ENEMY, _PLAYER};
 
 class Tile{
 	char representation;
