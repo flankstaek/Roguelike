@@ -26,3 +26,4 @@ void Enemy::damage(int d) {
 
 	//Check for death in here?
 }
+

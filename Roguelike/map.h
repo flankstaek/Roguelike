@@ -1,6 +1,6 @@
 
 #include <conio.h>
-
+#include <vector>
 
 #define MAXLENGTH 30
 #define MAXHEIGHT 25
@@ -10,8 +10,7 @@
 #define MAPGEN_H
 
 class Tile;
-
-
+class Point;
 
 void generateMap(int, Tile[MAXHEIGHT][MAXLENGTH]);
 
@@ -24,5 +23,7 @@ int* findNextPoint(Tile[MAXHEIGHT][MAXLENGTH], int, int);
 void fillMap(Tile[MAXHEIGHT][MAXLENGTH]);
 
 void printMap(Tile[MAXHEIGHT][MAXLENGTH]);
+
+void printPath(std::vector<Point>);
 
 #endif

@@ -1,5 +1,7 @@
 #include "Character.h"
 
+#include "point.h"
+
 class Enemy: public Character{
 public:
 	int dmg;

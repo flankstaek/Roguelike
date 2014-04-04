@@ -8,6 +8,7 @@
 #include "Character.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Point.h"
 
 using namespace std;
 
@@ -65,9 +66,21 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 			printMap(map);
 		}
 		//Iterate through enemies, do shit
+		Point p1 = Point(characters[1]->getX(), characters[1]->getY());
+		Point p2 = Point(characters[0]->getX(), characters[0]->getY());
+		vector<Point> test = p1.path(map, p1, p2);
+		printPath(test);
 		c = _getch();
 	}
 	return 1;
+}
+
+void printPath(vector<Point> p){
+	cout << "\n\n";
+	cout << p.size();
+	for (int i = 0; i < (int)p.size(); i++){
+		cout << p[i].xVal << ", " << p[i].yVal << "\n";
+	}
 }
 
 Character ** populateMap(Tile map[MAXHEIGHT][MAXLENGTH]){
