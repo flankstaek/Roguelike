@@ -1,0 +1,137 @@
+
+#include "point.h"
+#include "Tile.h"
+
+#include <cmath>
+#include <iostream>
+
+using namespace std;
+
+Point::Point(int x, int y){
+	xVal = x;
+	yVal = y;
+}
+
+double Point::distance(Point p){
+	return sqrt((p.xVal - xVal)*(p.xVal - xVal) + (p.yVal - yVal)*(p.yVal - yVal));
+}
+
+bool Point::equals(Point p){
+	return (p.xVal == xVal && p.yVal == yVal);
+}
+
+
+vector<Point> Point::path(Tile map[MAXHEIGHT][MAXLENGTH], Point start, Point goal){
+	//Point start = Point(getX(), getY());
+	vector<Point> closedSet;
+	vector<Point> openSet;
+	openSet.insert(openSet.begin(), start);
+	std::map<Point, Point, PointComp> cameFrom;
+
+	std::map<Point, double, PointComp> g_score;
+	std::map<Point, double, PointComp> f_score;
+
+	g_score[start] = 0;
+	f_score[start] = g_score[start] + start.distance(goal);	//in this case the "heuristic cost estimate" is just the 
+															//shortest possible path assuming no walls and shit
+	cout << f_score[start];
+	while (!openSet.empty()){
+		cout << "qq";
+		double lowest = f_score[openSet[0]];
+		Point current = openSet[0];
+		for (int i = 1; i < (int)openSet.size(); i++){
+			cout << "\n\nit's not happening: " << openSet[i].xVal << ", " << openSet[i].yVal << ", " << f_score[openSet[i]] << ", " << lowest << "\n\n";
+			if (f_score[openSet[i]] < lowest){
+				cout << "\n\nit's happening: " << openSet[i].xVal << ", " << openSet[i].yVal << ", " << f_score[openSet[i]] << ", " << lowest << "\n\n";
+				lowest = f_score[openSet[i]];
+				current = openSet[i];
+			}
+		}
+
+		if (current.equals(goal)){
+			//cout << "gg";
+			return reconstruct_path(cameFrom, goal);
+		}
+
+		for (int i = 0; i < (int)openSet.size(); i++){
+			if (openSet[i].equals(current)){
+				cout << "deleted";
+				openSet.erase(openSet.begin() + i);
+			}
+		}
+
+		map[current.yVal][current.xVal].setRepresentation('c');
+		printMap(map);
+		closedSet.insert(closedSet.begin(), current);
+		vector<Point> neighbors = getNeighbors(current);
+		for (int i = 0; i < (int)neighbors.size(); i++){
+			if (neighbors[i].xVal >= 0 && neighbors[i].yVal >= 0){
+				if (map[yVal][xVal].getPassable()){
+					Point currentNeighbor = neighbors[i];
+					bool isClosed = false;
+					for (int i = 0; i < (int)closedSet.size(); i++){
+						if (closedSet[i].equals(currentNeighbor)){
+							isClosed = true;
+						}
+					}
+					if (isClosed){
+						continue;
+					}
+
+					double tentative_g_score = g_score[current] + current.distance(currentNeighbor);
+
+					bool isOpen = false;
+					for (int i = 0; i < (int)openSet.size(); i++){
+						if (openSet[i].equals(current)){
+							isOpen = true;
+						}
+					}
+					if ((!isOpen) || tentative_g_score < g_score[currentNeighbor]){
+						cameFrom[currentNeighbor] = current;
+						g_score[currentNeighbor] = tentative_g_score;
+						f_score[currentNeighbor] = g_score[currentNeighbor] + currentNeighbor.distance(goal);
+						if (!isOpen){
+							openSet.insert(openSet.begin(), currentNeighbor);
+							map[currentNeighbor.yVal][currentNeighbor.xVal].setRepresentation('o');
+							printMap(map);
+						}
+					}
+				}
+			}
+		}
+	}
+	cout << "failure";
+	return closedSet;
+}
+
+vector<Point> Point::reconstruct_path(map<Point, Point, PointComp> cameFrom, Point current_node){
+	if (cameFrom.find(current_node) != cameFrom.end()){
+		vector<Point> p = reconstruct_path(cameFrom, cameFrom[current_node]);
+		p.push_back(current_node);
+		//p[p.size() - 1] = current_node;
+		//cout << p.size();
+		cout << "shit";
+		return p;
+	}
+	else{
+		vector<Point> result;
+		result[0] = current_node;
+		return result;
+	}
+}
+
+vector<Point> Point::getNeighbors(Point p){
+	vector<Point> result;
+	result.insert(result.begin(), Point(p.xVal-1, p.yVal-1));
+	result.insert(result.begin(), Point(p.xVal - 1, p.yVal));
+	result.insert(result.begin(), Point(p.xVal, p.yVal - 1));
+	result.insert(result.begin(), Point(p.xVal + 1, p.yVal + 1));
+	result.insert(result.begin(), Point(p.xVal + 1, p.yVal));
+	result.insert(result.begin(), Point(p.xVal, p.yVal + 1));
+	result.insert(result.begin(), Point(p.xVal + 1, p.yVal - 1));
+	result.insert(result.begin(), Point(p.xVal - 1, p.yVal + 1));
+	return result;
+}
+
+
+
