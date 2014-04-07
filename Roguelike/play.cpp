@@ -69,7 +69,7 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 		Point p1 = Point(characters[1]->getX(), characters[1]->getY());
 		Point p2 = Point(characters[0]->getX(), characters[0]->getY());
 		vector<Point> test = p1.path(map, p1, p2);
-		printPath(test);
+		//printPath(test);
 		c = _getch();
 	}
 	return 1;

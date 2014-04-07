@@ -17,7 +17,7 @@ public:
 	int xVal;
 	int yVal;
 	double distance(Point p);
-	bool equals(Point p);
+	bool operator==(const Point &p);
 	std::vector<Point> path(Tile[MAXHEIGHT][MAXLENGTH], Point, Point);
 	std::vector<Point> reconstruct_path(std::map<Point, Point, PointComp>, Point);
 	std::vector<Point> getNeighbors(Point);
@@ -28,7 +28,7 @@ public:
 class PointComp{
 public:
 	bool operator() (const Point& lhs, const Point& rhs) const{
-		return lhs.xVal < rhs.xVal;
+		return (lhs.xVal < rhs.xVal) || ((lhs.xVal == rhs.xVal) && (lhs.yVal < rhs.yVal));
 	}
 };
 
