@@ -65,11 +65,16 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 		if (redraw){
 			printMap(map);
 		}
+<<<<<<< HEAD
 		//Iterate through enemies, do shit
 		Point p1 = Point(characters[1]->getX(), characters[1]->getY());
 		Point p2 = Point(characters[0]->getX(), characters[0]->getY());
 		vector<Point> test = p1.path(map, p1, p2);
 		//printPath(test);
+=======
+		Enemy * e = (Enemy*)characters[1];
+		e->checkAttack(map);
+>>>>>>> origin/EnemyAI
 		c = _getch();
 	}
 	return 1;
@@ -88,6 +93,7 @@ Character ** populateMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	Character * p = (Character*)malloc(sizeof(Player));
 	p = new Player(10, '@');
 	p->setPos(1, 1, map);
+	map[1][1].setPassable(_PLAYER); //Janky as shit way for enemies to make sure they only hit a player.
 	Character * e = (Character*)malloc(sizeof(Enemy));
 	e = new Enemy(5, 'e');
 	e->setPos(MAXHEIGHT / 2, MAXLENGTH / 2, map);

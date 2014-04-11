@@ -9,4 +9,5 @@ public:
 	Enemy(int, char);
 	int attack(Character*);
 	void damage(int);
+	int checkAttack(Tile[MAXHEIGHT][MAXLENGTH]);
 };

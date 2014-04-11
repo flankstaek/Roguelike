@@ -51,7 +51,9 @@ void Character::setPos(int y, int x, Tile map[MAXHEIGHT][MAXLENGTH]){
 	}
 	else{
 		map[yPos][xPos].setOccupyingCharacter(0);
+		map[yPos][xPos].setPassable(_PASS);
 		map[y][x].setOccupyingCharacter(this);
+		map[y][x].setPassable(_PLAYER);
 	}
 	xPos = x;
 	yPos = y;
