@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+
 #include "play.h"
 #include "Tile.h"
 #include "Character.h"
@@ -13,6 +14,15 @@
 using namespace std;
 
 int main(){
+
+	//curses initialization
+	initscr();
+	cbreak();
+	keypad(stdscr, TRUE);
+	noecho();
+	resize_term(MAXHEIGHT, MAXLENGTH);
+
+
 	Tile map[MAXHEIGHT][MAXLENGTH];
 	generateMap(0, map);
 	//printMap(map);
@@ -30,53 +40,54 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 
 
 	printMap(map);
+	refresh();
 
 
-	c = _getch();
+	c = getch();
 	while (c != 27){
 		int redraw = 0;
-		if (c == 49){
+		if (c == KEY_C1){
 			redraw = moveCH(1, map, characters[0]);
 		}
-		if (c == 50){
+		if (c == KEY_C2){
 			redraw = moveCH(2, map, characters[0]);
 		}
-		if (c == 51){
+		if (c == KEY_C3){
 			redraw = moveCH(3, map, characters[0]);
 		}
-		if (c == 52){
+		if (c == KEY_B1){
 			redraw = moveCH(4, map, characters[0]);
 		}
-		if (c == 53){
+		if (c == KEY_B2){
 			redraw = moveCH(5, map, characters[0]);
 		}
-		if (c == 54){
+		if (c == KEY_B3){
 			redraw = moveCH(6, map, characters[0]);
 		}
-		if (c == 55){
+		if (c == KEY_A1){
 			redraw = moveCH(7, map, characters[0]);
 		}
-		if (c == 56){
+		if (c == KEY_A2){
 			redraw = moveCH(8, map, characters[0]);
 		}
-		if (c == 57){
+		if (c == KEY_A3){
 			redraw = moveCH(9, map, characters[0]);
 		}
 		if (redraw){
+			clear();
 			printMap(map);
+			refresh();
 		}
-<<<<<<< HEAD
 		//Iterate through enemies, do shit
 		Point p1 = Point(characters[1]->getX(), characters[1]->getY());
 		Point p2 = Point(characters[0]->getX(), characters[0]->getY());
 		vector<Point> test = p1.path(map, p1, p2);
 		//printPath(test);
-=======
 		Enemy * e = (Enemy*)characters[1];
 		e->checkAttack(map);
->>>>>>> origin/EnemyAI
-		c = _getch();
+		c = getch();
 	}
+	endwin();
 	return 1;
 }
 

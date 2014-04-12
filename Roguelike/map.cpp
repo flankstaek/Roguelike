@@ -112,9 +112,17 @@ void fillMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 
 void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	for(int i = 0; i < MAXHEIGHT; i++){
-		cout << "\n";
+		//if (i != 0) { addch('\n'); }
 		for(int j = 0; j < MAXLENGTH; j++){
-			cout << map[i][j].getRepresentation();
+			if (map[i][j].getRepresentation() != WALL && map[i][j].getRepresentation() != FLOOR) {
+				addch(map[i][j].getRepresentation());
+			}
+			else if (map[i][j].getRepresentation() == WALL) {
+				addch(ACS_BLOCK);
+			}
+			else if (map[i][j].getRepresentation() == FLOOR) {
+				addch(ACS_BULLET);
+			}
 		}
 	}
 }

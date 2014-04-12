@@ -1,6 +1,8 @@
 
-#include <conio.h>
 #include <vector>
+
+#include "curses.h"
+#include "panel.h"
 
 #define MAXLENGTH 30
 #define MAXHEIGHT 25
