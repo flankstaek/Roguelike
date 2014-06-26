@@ -1,7 +1,6 @@
 
 #include <vector>
 
-#include "curses.h"
 #include "panel.h"
 
 #define MAXLENGTH 30
