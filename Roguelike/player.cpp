@@ -2,6 +2,8 @@
 
 using namespace std;
 
+Character* Player::playerCharacter;
+
 Player::Player(int h, char r) : Character(h, r){
 
 }

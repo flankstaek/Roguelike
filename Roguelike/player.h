@@ -19,6 +19,8 @@ public:
 	int strength;
 	int luck;
 
+
+	static Character * playerCharacter;
 	
 
 	Player(int, char);

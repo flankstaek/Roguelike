@@ -1,6 +1,7 @@
 
 #include "Character.h"
 #include "Tile.h"
+#include "Point.h"
 
 #include<iostream>
 using namespace std;
@@ -11,6 +12,7 @@ Character::Character(int h, char r){
 	rep = r;
 	xPos = -1;
 	yPos = -1;
+	sightDistance = 6;
 }
 
 void Character::damage(int d) { 
@@ -42,6 +44,16 @@ int Character::getX(){
 
 int Character::getY(){
 	return yPos;
+}
+
+int Character::hasLOS(int y, int x){
+	Point p1 = Point(x, y);
+	Point p2 = Point(xPos, yPos);
+	//cout << p1.distance(p2) << " " << sightDistance;
+	if (p1.distance(p2) < sightDistance){
+		return 1;
+	}
+	return 0;
 }
 
 void Character::setPos(int y, int x, Tile map[MAXHEIGHT][MAXLENGTH]){

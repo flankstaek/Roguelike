@@ -3,8 +3,8 @@
 
 #include "panel.h"
 
-#define MAXLENGTH 30
-#define MAXHEIGHT 25
+#define MAXLENGTH 50
+#define MAXHEIGHT 50
 #define MINROOMSIZE 2
 
 #ifndef MAPGEN_H

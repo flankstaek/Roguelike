@@ -15,6 +15,8 @@
 
 #include "map.h"
 #include "Tile.h"
+#include "Player.h"
+#include "Character.h"
 
 using namespace std;
 
@@ -114,14 +116,19 @@ void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	for(int i = 0; i < MAXHEIGHT; i++){
 		//if (i != 0) { addch('\n'); }
 		for(int j = 0; j < MAXLENGTH; j++){
-			if (map[i][j].getRepresentation() != WALL && map[i][j].getRepresentation() != FLOOR) {
-				addch(map[i][j].getRepresentation());
+			if (Player::playerCharacter->hasLOS(i, j)){
+				if (map[i][j].getRepresentation() != WALL && map[i][j].getRepresentation() != FLOOR) {
+					addch(map[i][j].getRepresentation());
+				}
+				else if (map[i][j].getRepresentation() == WALL) {
+					addch(ACS_BLOCK);
+				}
+				else if (map[i][j].getRepresentation() == FLOOR) {
+					addch(ACS_BULLET);
+				}
 			}
-			else if (map[i][j].getRepresentation() == WALL) {
-				addch(ACS_BLOCK);
-			}
-			else if (map[i][j].getRepresentation() == FLOOR) {
-				addch(ACS_BULLET);
+			else{
+				addch(32);
 			}
 		}
 	}

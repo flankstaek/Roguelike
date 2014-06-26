@@ -14,6 +14,7 @@ public:
 	char rep;
 	int xPos;
 	int yPos;
+	int sightDistance;
 
 	virtual void damage(int);
 	void addExp(int);
@@ -25,6 +26,8 @@ public:
 	int getX();
 	int getY();
 	void setPos(int, int, Tile[MAXHEIGHT][MAXLENGTH]);
+
+	int hasLOS(int, int);
 };
 
 #endif

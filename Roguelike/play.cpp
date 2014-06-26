@@ -101,14 +101,14 @@ void printPath(vector<Point> p){
 
 Character ** populateMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	Character ** result = (Character**)malloc(sizeof(Character**));
-	Character * p = (Character*)malloc(sizeof(Player));
-	p = new Player(10, '@');
-	p->setPos(1, 1, map);
+	Player::playerCharacter = (Character*)malloc(sizeof(Player));
+	Player::playerCharacter = new Player(10, '@');
+	Player::playerCharacter->setPos(1, 1, map);
 	map[1][1].setPassable(_PLAYER); //Janky as shit way for enemies to make sure they only hit a player.
 	Character * e = (Character*)malloc(sizeof(Enemy));
 	e = new Enemy(5, 'e');
 	e->setPos(MAXHEIGHT / 2, MAXLENGTH / 2, map);
-	result[0] = p;
+	result[0] = Player::playerCharacter;
 	result[1] = e;
 	return result;
 }
