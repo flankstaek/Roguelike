@@ -13,19 +13,28 @@ enum PASSABLE {_PASS, _WALL, _ENEMY, _PLAYER};
 class Tile{
 	char representation;
 	int isPassible;
+	int isOpaque;
+	int isVisible;
 	bool hasCharacter;
 	bool hasItem;
 	Character* occupyingCharacter;
 
 public:
 	Tile();
-	Tile(char, int);
+	Tile(char, int, int);
 	Tile(char);
+
 	int getPassable();
+	int getOpaque();
+	int getVisible();
+
 	char getRepresentation();
+
 	void setPassable(int);
 	void setRepresentation(char);
 	void setOccupyingCharacter(Character *);
+	void setVisible(int);
+
 	Character * getOccupyingCharacter();
 };
 

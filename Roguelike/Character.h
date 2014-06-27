@@ -25,6 +25,7 @@ public:
 	Character(int, char);
 	int getX();
 	int getY();
+	int getSight();
 	void setPos(int, int, Tile[MAXHEIGHT][MAXLENGTH]);
 
 	int hasLOS(int, int);

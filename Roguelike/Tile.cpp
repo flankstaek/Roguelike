@@ -1,24 +1,36 @@
 #include "Tile.h"
 #include "Character.h"
-
-using namespace std;
 #include<iostream>
 
-Tile::Tile(char rep, int pass){
+using namespace std;
+
+Tile::Tile(char rep, int pass, int opaque){
 	representation = rep;
 	isPassible = pass;
 	hasCharacter = false;
 	hasItem = false;
 	occupyingCharacter = 0;
+	isOpaque = opaque;
+	isVisible = 0;
 }
 
 Tile::Tile(){
 	representation = WALL;
 	isPassible = _WALL;
+	isOpaque = 1;
+	isVisible = 0;
 }
 
 int Tile::getPassable(){
 	return isPassible;
+}
+
+int Tile::getOpaque(){
+	return isOpaque;
+}
+
+int Tile::getVisible(){
+	return isVisible;
 }
 
 char Tile::getRepresentation(){
@@ -40,11 +52,15 @@ void Tile::setRepresentation(char rep){
 	representation = rep;
 }
 
-Wall::Wall() : Tile(WALL, _WALL){
+void Tile::setVisible(int vis){
+	isVisible = vis;
+}
+
+Wall::Wall() : Tile(WALL, _WALL, 1){
 
 }
 
-Floor::Floor() : Tile(FLOOR, _PASS){
+Floor::Floor() : Tile(FLOOR, _PASS, 0){
 
 }
 

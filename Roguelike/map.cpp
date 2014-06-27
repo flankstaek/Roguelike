@@ -20,6 +20,13 @@
 
 using namespace std;
 
+static int multipliers[4][8] = {
+	{ 1, 0, 0, -1, -1, 0, 0, 1 },
+	{ 0, 1, -1, 0, 0, -1, 1, 0 },
+	{ 0, 1, 1, 0, 0, -1, -1, 0 },
+	{ 1, 0, 0, 1, -1, 0, 0, -1 }
+};
+
 /*int main(){
 	srand(time(0));
 	int type = 0;
@@ -51,6 +58,9 @@ void generateMap(int type, Tile map[MAXHEIGHT][MAXLENGTH]){
 		for(int j = 0; j < MAXLENGTH; j++){
 			map[MAXHEIGHT-1][j] = Wall();
 		}
+		map[6][7] = Wall();
+		map[6][8] = Wall();
+		map[6][9] = Wall();
 	}
 	else if(type == 1){
 		while(addRoom(map)){
@@ -113,10 +123,12 @@ void fillMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 }
 
 void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
+	doFOV(map, Player::playerCharacter->getX(), Player::playerCharacter->getY(), Player::playerCharacter->getSight());
 	for(int i = 0; i < MAXHEIGHT; i++){
 		//if (i != 0) { addch('\n'); }
 		for(int j = 0; j < MAXLENGTH; j++){
-			if (Player::playerCharacter->hasLOS(i, j)){
+			//cout << map[i][j].getVisible();
+			if (map[i][j].getVisible()){
 				if (map[i][j].getRepresentation() != WALL && map[i][j].getRepresentation() != FLOOR) {
 					addch(map[i][j].getRepresentation());
 				}
@@ -134,6 +146,73 @@ void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	}
 }
 
+void doFOV(Tile map[MAXHEIGHT][MAXLENGTH], int x, int y, int radius){
+	cout << "happens";
+	for (int i = 0; i < MAXHEIGHT; i++){
+		for (int j = 0; j < MAXLENGTH; j++){
+			//cout << "huh";
+			map[i][j].setVisible(0);
+		}
+	}
+	cout << "happened";
+	cout << map[1][1].getVisible();
+	for (int i = 0; i < 8; i++){
+		castLight(map, x, y, radius, 1, 1.0, 0.0, multipliers[0][i], multipliers[1][i], multipliers[2][i], multipliers[3][i]);
+	}
+	map[Player::playerCharacter->getY()][Player::playerCharacter->getX()].setVisible(1);
+}
 
+void castLight(Tile map[MAXHEIGHT][MAXLENGTH], int x, int y, int radius, int row, float startSlope, float endSlope, int xx, int xy, int yx, int yy){
+	if (startSlope < endSlope){
+		return;
+	}
+	float nextStartSlope = startSlope;
+	for (int i = row; i <= radius; i++){
+		bool blocked = false;
+		for (int dx = -i, dy = -i; dx <= 0; dx++){
+			float lSlope = (dx - .5) / (dy + .5);
+			float rSlope = (dx + .5) / (dy - .5);
+			if (startSlope < rSlope){
+				continue;
+			}
+			else if (endSlope > lSlope){
+				break;
+			}
 
+			int sax = dx * xx + dy * xy;
+			int say = dx * yx + dy * yy;
+			if ((sax < 0 && abs(sax) > x) || (say < 0 && abs(say) > y)){
+				continue;
+			}
+			int ax = x + sax;
+			int ay = y + say;
+			if (ax >= MAXLENGTH || ay >= MAXHEIGHT){
+				continue;
+			}
 
+			int radius2 = radius * radius;
+			if ((dx*dx + dy*dy) < radius2){
+				map[ay][ax].setVisible(1);
+			}
+
+			if (blocked){
+				if (map[ay][ax].getOpaque()){
+					nextStartSlope = rSlope;
+					continue;
+				}
+				else{
+					blocked = false;
+					startSlope = nextStartSlope;
+				}
+			}
+			else if (map[ay][ax].getOpaque()){
+				blocked = true;
+				nextStartSlope = rSlope;
+				castLight(map, x, y, radius, i + 1, startSlope, lSlope, xx, xy, yx, yy);
+			}
+		}
+		if (blocked){
+			break;
+		}
+	}
+}

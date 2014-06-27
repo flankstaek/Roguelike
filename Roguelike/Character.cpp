@@ -46,6 +46,10 @@ int Character::getY(){
 	return yPos;
 }
 
+int Character::getSight(){
+	return sightDistance;
+}
+
 int Character::hasLOS(int y, int x){
 	Point p1 = Point(x, y);
 	Point p2 = Point(xPos, yPos);

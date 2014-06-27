@@ -27,4 +27,8 @@ void printMap(Tile[MAXHEIGHT][MAXLENGTH]);
 
 void printPath(std::vector<Point>);
 
+void doFOV(Tile[MAXHEIGHT][MAXLENGTH], int, int, int);
+
+void castLight(Tile[MAXHEIGHT][MAXLENGTH], int, int, int, int, float, float, int, int, int, int);
+
 #endif
