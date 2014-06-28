@@ -15,6 +15,7 @@ class Tile{
 	int isPassible;
 	int isOpaque;
 	int isVisible;
+	int isExplored;
 	bool hasCharacter;
 	bool hasItem;
 	Character* occupyingCharacter;
@@ -27,6 +28,7 @@ public:
 	int getPassable();
 	int getOpaque();
 	int getVisible();
+	int getExplored();
 
 	char getRepresentation();
 
@@ -34,6 +36,7 @@ public:
 	void setRepresentation(char);
 	void setOccupyingCharacter(Character *);
 	void setVisible(int);
+	void setExplored(int);
 
 	Character * getOccupyingCharacter();
 };

@@ -17,6 +17,7 @@ int main(){
 
 	//curses initialization
 	initscr();
+	start_color();
 	cbreak();
 	keypad(stdscr, TRUE);
 	noecho();

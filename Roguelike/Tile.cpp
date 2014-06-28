@@ -12,6 +12,7 @@ Tile::Tile(char rep, int pass, int opaque){
 	occupyingCharacter = 0;
 	isOpaque = opaque;
 	isVisible = 0;
+	isExplored = 0;
 }
 
 Tile::Tile(){
@@ -19,6 +20,7 @@ Tile::Tile(){
 	isPassible = _WALL;
 	isOpaque = 1;
 	isVisible = 0;
+	isExplored = 0;
 }
 
 int Tile::getPassable(){
@@ -31,6 +33,10 @@ int Tile::getOpaque(){
 
 int Tile::getVisible(){
 	return isVisible;
+}
+
+int Tile::getExplored(){
+	return isExplored;
 }
 
 char Tile::getRepresentation(){
@@ -54,6 +60,10 @@ void Tile::setRepresentation(char rep){
 
 void Tile::setVisible(int vis){
 	isVisible = vis;
+}
+
+void Tile::setExplored(int expl){
+	isExplored = expl;
 }
 
 Wall::Wall() : Tile(WALL, _WALL, 1){
