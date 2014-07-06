@@ -122,48 +122,7 @@ void fillMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	}
 }
 
-void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
-	init_pair(0, COLOR_WHITE, COLOR_BLACK);
-	attron(COLOR_PAIR(1) | A_BOLD);
-	doFOV(map, Player::playerCharacter->getX(), Player::playerCharacter->getY(), Player::playerCharacter->getSight());
-	for(int i = 0; i < MAXHEIGHT; i++){
-		//if (i != 0) { addch('\n'); }
-		for(int j = 0; j < MAXLENGTH; j++){
-			//cout << map[i][j].getVisible();
-			if (map[i][j].getVisible()){
-				if (map[i][j].getRepresentation() != WALL && map[i][j].getRepresentation() != FLOOR) {
-					addch(map[i][j].getRepresentation());
-				}
-				else if (map[i][j].getRepresentation() == WALL) {
-					addch(ACS_BLOCK);
-				}
-				else if (map[i][j].getRepresentation() == FLOOR) {
-					addch(ACS_BULLET);
-				}
-			}
-			else if (map[i][j].getExplored()){
-				init_pair(1, COLOR_YELLOW, COLOR_BLACK);
 
-				//init_color(COLOR_RED, 204, 0, 0);
-				attron(COLOR_PAIR(1));
-				attroff(A_BOLD);
-				if (map[i][j].getRepresentation() == WALL) {
-					addch(ACS_BLOCK);
-				}
-				else{// if (map[i][j].getRepresentation() == FLOOR) {
-					addch(ACS_BULLET);
-				}
-				attroff(COLOR_PAIR(1));
-				attron(A_BOLD);
-				//init_color(COLOR_WHITE, 225, 225, 225);
-			}
-			else{
-				addch(32);
-			}
-		}
-	}
-	attroff(COLOR_PAIR(0) | A_BOLD);
-}
 
 void doFOV(Tile map[MAXHEIGHT][MAXLENGTH], int x, int y, int radius){
 	for (int i = 0; i < MAXHEIGHT; i++){

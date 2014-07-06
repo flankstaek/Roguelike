@@ -1,7 +1,7 @@
 
 #include <vector>
 
-#include "panel.h"
+
 
 #define MAXLENGTH 50
 #define MAXHEIGHT 50
@@ -22,8 +22,6 @@ int addRoom(Tile[MAXHEIGHT][MAXLENGTH]);
 int* findNextPoint(Tile[MAXHEIGHT][MAXLENGTH], int, int);
 
 void fillMap(Tile[MAXHEIGHT][MAXLENGTH]);
-
-void printMap(Tile[MAXHEIGHT][MAXLENGTH]);
 
 void printPath(std::vector<Point>);
 

@@ -10,18 +10,14 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Point.h"
+#include "graphics.h"
 
 using namespace std;
 
 int main(){
 
 	//curses initialization
-	initscr();
-	start_color();
-	cbreak();
-	keypad(stdscr, TRUE);
-	noecho();
-	resize_term(MAXHEIGHT, MAXLENGTH);
+	initGraphics();
 
 
 	Tile map[MAXHEIGHT][MAXLENGTH];
@@ -40,8 +36,7 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 	//setEnemyLoc(15, 15, map);
 
 
-	printMap(map);
-	refresh();
+	redrawScreen(map);
 
 
 	c = getch();
@@ -75,9 +70,7 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 			redraw = moveCH(9, map, characters[0]);
 		}
 		if (redraw){
-			clear();
-			printMap(map);
-			refresh();
+			redrawScreen(map);
 		}
 		//Iterate through enemies, do shit
 		Point p1 = Point(characters[1]->getX(), characters[1]->getY());
