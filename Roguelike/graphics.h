@@ -2,6 +2,11 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
+#define DISPLAY_HEIGHT 40
+#define DISPLAY_LENGTH 60
+#define STATUS_LENGTH 20
+#define CONSOLE_HEIGHT 10
+
 #include "map.h"
 #include "panel.h"
 

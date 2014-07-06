@@ -3,7 +3,7 @@
 
 
 
-#define MAXLENGTH 30
+#define MAXLENGTH 40
 #define MAXHEIGHT 30
 #define MINROOMSIZE 2
 
