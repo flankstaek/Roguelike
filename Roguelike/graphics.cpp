@@ -19,8 +19,8 @@ void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	int mapXStart = Player::playerCharacter->getX() - (DISPLAY_LENGTH - STATUS_LENGTH) / 2 - 1;
 
 
-	for (int i = mapYStart; i < DISPLAY_HEIGHT - CONSOLE_HEIGHT; i++){
-		if(i < 0){
+	for (int i = mapYStart; i < DISPLAY_HEIGHT - CONSOLE_HEIGHT + mapYStart; i++){
+		if(i < 0 || i >= MAXHEIGHT){
 			for (int j = 0; j < DISPLAY_LENGTH - STATUS_LENGTH; j++){
 				addch(32);
 			}
@@ -29,9 +29,9 @@ void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 			}
 		}
 		else{
-			for (int j = mapXStart; j < DISPLAY_LENGTH - STATUS_LENGTH; j++){
+			for (int j = mapXStart; j < DISPLAY_LENGTH - STATUS_LENGTH + mapXStart; j++){
 				//cout << map[i][j].getVisible();
-				if (j < 0){
+				if (j < 0 || j >= MAXLENGTH){
 					addch(32);
 				}
 				else if (map[i][j].getVisible()){
@@ -45,6 +45,17 @@ void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 						addch(ACS_BULLET);
 					}
 				}
+				/*else if (Player::playerCharacter->hasLOS(i, j)){
+					if (map[i][j].getRepresentation() != WALL && map[i][j].getRepresentation() != FLOOR) {
+						addch(map[i][j].getRepresentation());
+					}
+					else if (map[i][j].getRepresentation() == WALL) {
+						addch(ACS_BLOCK);
+					}
+					else if (map[i][j].getRepresentation() == FLOOR) {
+						addch(ACS_BULLET);
+					}
+				}*/
 				else if (map[i][j].getExplored()){
 					init_pair(1, COLOR_YELLOW, COLOR_BLACK);
 
@@ -62,11 +73,20 @@ void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 					attron(A_BOLD);
 					//init_color(COLOR_WHITE, 225, 225, 225);
 				}
+				/*else if (map[i][j].getRepresentation() != WALL && map[i][j].getRepresentation() != FLOOR) {
+					addch(map[i][j].getRepresentation());
+				}
+				else if (map[i][j].getRepresentation() == WALL) {
+					addch(ACS_BLOCK);
+				}
+				else if (map[i][j].getRepresentation() == FLOOR) {
+					addch(ACS_BULLET);
+				}*/
 				else{
 					addch(32);
 				}
 			}
-			for (int j = 0; j < STATUS_LENGTH + mapXStart; j++){
+			for (int j = 0; j < STATUS_LENGTH; j++){
 				addch(32);
 			}
 		}

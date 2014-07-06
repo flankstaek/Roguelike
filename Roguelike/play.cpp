@@ -75,7 +75,7 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 		//Iterate through enemies, do shit
 		Point p1 = Point(characters[1]->getX(), characters[1]->getY());
 		Point p2 = Point(characters[0]->getX(), characters[0]->getY());
-		vector<Point> test = p1.path(map, p1, p2);
+		//vector<Point> test = p1.path(map, p1, p2);
 		//printPath(test);
 		Enemy * e = (Enemy*)characters[1];
 		e->checkAttack(map);
@@ -94,7 +94,7 @@ void printPath(vector<Point> p){
 }
 
 Character ** populateMap(Tile map[MAXHEIGHT][MAXLENGTH]){
-	Character ** result = (Character**)malloc(sizeof(Character**));
+	Character ** result = (Character**)malloc(sizeof(Character**)*2);
 	Player::playerCharacter = (Character*)malloc(sizeof(Player));
 	Player::playerCharacter = new Player(10, '@');
 	Player::playerCharacter->setPos(1, 1, map);

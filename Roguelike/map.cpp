@@ -125,13 +125,20 @@ void fillMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 
 
 void doFOV(Tile map[MAXHEIGHT][MAXLENGTH], int x, int y, int radius){
-	for (int i = 0; i < MAXHEIGHT; i++){
-		for (int j = 0; j < MAXLENGTH; j++){
-			map[i][j].setVisible(0);
+	for (int i = y - (radius + 1); i < y + (radius + 1); i++){
+		for (int j = x - (radius + 1); j < x + (radius + 1); j++){
+			if (!(i < 0 || j < 0 || i >= MAXHEIGHT || j >= MAXLENGTH)){
+				map[i][j].setVisible(0);
+			}
 		}
 	}
 	for (int i = 0; i < 8; i++){
-		castLight(map, x, y, radius, 1, 1.0, 0.0, multipliers[0][i], multipliers[1][i], multipliers[2][i], multipliers[3][i]);
+		if (y - radius > 0){
+			castLight(map, x, y, radius, 1, 1.0, 0.0, multipliers[0][i], multipliers[1][i], multipliers[2][i], multipliers[3][i]);
+		}
+		else{
+			castLight(map, x, y, radius, 1, 1.0, 0.0, multipliers[0][i], multipliers[1][i], multipliers[2][i], multipliers[3][i]);
+		}
 	}
 	map[Player::playerCharacter->getY()][Player::playerCharacter->getX()].setVisible(1);
 }

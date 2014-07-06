@@ -4,7 +4,7 @@
 
 
 #define MAXLENGTH 40
-#define MAXHEIGHT 30
+#define MAXHEIGHT 40
 #define MINROOMSIZE 2
 
 #ifndef MAPGEN_H
