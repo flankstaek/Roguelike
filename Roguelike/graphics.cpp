@@ -93,8 +93,8 @@ void printMap(Tile map[MAXHEIGHT][MAXLENGTH]){
 	}
 	//waddch(mySub, ACS_BULLET);
 	//wrefresh(mySub);
-	printToConsole("swagger");
-	printToStatus("swag");
+	//printToConsole("swaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaagger");
+	//printToStatus("swaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaag");
 	attroff(COLOR_PAIR(0) | A_BOLD);
 }
 
@@ -105,6 +105,7 @@ void initGraphics(){
 	cbreak();
 	keypad(stdscr, TRUE);
 	noecho();
+	PDC_set_blink(false);
 	resize_term(DISPLAY_HEIGHT, DISPLAY_LENGTH);
 	consoleWindow = subwin(stdscr, CONSOLE_HEIGHT, DISPLAY_LENGTH, DISPLAY_HEIGHT - CONSOLE_HEIGHT, 0);
 	statusWindow = subwin(stdscr, DISPLAY_HEIGHT, STATUS_LENGTH, 0, DISPLAY_LENGTH - STATUS_LENGTH);
@@ -126,14 +127,21 @@ void printToConsole(char* s){
 	for (int i = 0; i < DISPLAY_LENGTH; i++){
 		waddch(consoleWindow, 32);
 	}
-	waddch(consoleWindow, 32);
-	box(consoleWindow, 0, 0);
+	//waddch(consoleWindow, 32);
 
 	int i = 0;
 	while (s[i]){
+		if (i == 0){
+			waddch(consoleWindow, 32);
+		}
+		else if (i % (DISPLAY_LENGTH-2) == 0){
+			waddch(consoleWindow, 32);
+			waddch(consoleWindow, 32);
+		}
 		waddch(consoleWindow, s[i]);
 		i++;
 	}
+	box(consoleWindow, 0, 0);
 	wrefresh(consoleWindow);
 }
 
@@ -142,13 +150,20 @@ void printToStatus(char* s){
 	for (int i = 0; i < STATUS_LENGTH; i++){
 		waddch(statusWindow, 32);
 	}
-	waddch(statusWindow, 32);
-	box(statusWindow, 0, 0);
+	//waddch(statusWindow, 32);
 
 	int i = 0;
 	while (s[i]){
+		if (i == 0){
+			waddch(statusWindow, 32);
+		}
+		else if (i % (STATUS_LENGTH - 2) == 0){
+			waddch(statusWindow, 32);
+			waddch(statusWindow, 32);
+		}
 		waddch(statusWindow, s[i]);
 		i++;
 	}
+	box(statusWindow, 0, 0);
 	wrefresh(statusWindow);
 }

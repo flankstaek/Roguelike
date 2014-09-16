@@ -75,7 +75,7 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 		//Iterate through enemies, do shit
 		Point p1 = Point(characters[1]->getX(), characters[1]->getY());
 		Point p2 = Point(characters[0]->getX(), characters[0]->getY());
-		//vector<Point> test = p1.path(map, p1, p2);
+		vector<Point> test = p1.path(map, p1, p2);
 		//printPath(test);
 		Enemy * e = (Enemy*)characters[1];
 		e->checkAttack(map);
@@ -86,10 +86,15 @@ int play(Tile map[MAXHEIGHT][MAXLENGTH]){
 }
 
 void printPath(vector<Point> p){
-	cout << "\n\n";
-	cout << p.size();
+	//printToConsole("\n\n");
+	char temp[10];
+	sprintf_s(temp, "%d", p.size());
+	//printToConsole(temp);
+	//cout << p.size();
 	for (int i = 0; i < (int)p.size(); i++){
-		cout << p[i].xVal << ", " << p[i].yVal << "\n";
+		sprintf_s(temp, "%d, %d", p[i].xVal, p[i].yVal);
+		printToConsole(temp);
+		//cout << p[i].xVal << ", " << p[i].yVal << "\n";
 	}
 }
 

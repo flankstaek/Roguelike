@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <unordered_map>
 
 using namespace std;
 
@@ -25,10 +26,10 @@ vector<Point> Point::path(Tile map[MAXHEIGHT][MAXLENGTH], Point start, Point goa
 	vector<Point> closedSet;
 	vector<Point> openSet;
 	openSet.insert(openSet.begin(), start);
-	std::map<Point, Point, PointComp> cameFrom;
+	std::unordered_map<Point, Point, hash<Point>> cameFrom;
 
-	std::map<Point, double, PointComp> g_score;
-	std::map<Point, double, PointComp> f_score;
+	std::unordered_map<Point, double, hash<Point>> g_score;
+	std::unordered_map<Point, double, hash<Point>> f_score;
 
 	g_score[start] = 0;
 	f_score[start] = g_score[start] + start.distance(goal);	//in this case the "heuristic cost estimate" is just the 
@@ -44,7 +45,7 @@ vector<Point> Point::path(Tile map[MAXHEIGHT][MAXLENGTH], Point start, Point goa
 		}
 
 		if (current == goal){
-			return reconstruct_path(cameFrom, goal);
+			return reconstruct_path(cameFrom, goal, start);
 		}
 
 		for (int i = 0; i < (int)openSet.size(); i++){
@@ -91,9 +92,9 @@ vector<Point> Point::path(Tile map[MAXHEIGHT][MAXLENGTH], Point start, Point goa
 	return closedSet;
 }
 
-vector<Point> Point::reconstruct_path(map<Point, Point, PointComp> cameFrom, Point current_node){
-	if (cameFrom.find(current_node) != cameFrom.end()){
-		vector<Point> p = reconstruct_path(cameFrom, cameFrom[current_node]);
+vector<Point> Point::reconstruct_path(unordered_map<Point, Point, hash<Point>> cameFrom, Point current_node, Point end){
+	if (current_node != end){
+		vector<Point> p = reconstruct_path(cameFrom, cameFrom[current_node], end);
 		p.push_back(current_node);
 		return p;
 	}
